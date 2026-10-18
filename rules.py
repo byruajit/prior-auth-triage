@@ -54,6 +54,24 @@ def _check_red_flags(red_flags):
     return affirmative, unresolved
 
 
+def _therapy_days(request):
+    """Return documented therapy days (an int > 0, not a bool), or None if not documented."""
+    days = request.get("therapy_days")
+    if isinstance(days, int) and not isinstance(days, bool) and days > 0:
+        return days
+    return None
+
+
+def _therapy_shortfall(request, threshold):
+    """Return a missing-info message if therapy is undocumented or below threshold."""
+    days = _therapy_days(request)
+    if days is None:
+        return "conservative therapy is not documented"
+    if days < threshold:
+        return f"conservative therapy is {days} days; at least {threshold} days required"
+    return None
+
+
 def evaluate(request):
     affirmative, unresolved = _check_red_flags(request.get("red_flags"))
     if affirmative:
@@ -75,4 +93,13 @@ def evaluate(request):
             ("R5",),
             f"Routed to clinician review: unlisted procedure ({procedure!r}).",
         )
-    raise NotImplementedError("procedure rules (R1, R3, R4) are not implemented yet")
+    if procedure == MRI_LUMBAR_SPINE:
+        shortfall = _therapy_shortfall(request, 42)
+        if shortfall:
+            return Decision(NEEDS_INFO, ("R1",), f"Needs info: {shortfall}.")
+        return Decision(
+            APPROVE,
+            ("R1",),
+            "Approved: at least 42 days of conservative therapy documented and no red flags.",
+        )
+    raise NotImplementedError("procedure rules (R3, R4) are not implemented yet")
