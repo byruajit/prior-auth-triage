@@ -16,6 +16,11 @@ OUTCOMES = (APPROVE, NEEDS_INFO, CLINICIAN_REVIEW)
 
 RED_FLAGS = ("history of cancer", "new neurological deficit", "suspected infection")
 
+MRI_LUMBAR_SPINE = "MRI lumbar spine"
+CT_HEAD = "CT head"
+KNEE_ARTHROSCOPY = "Knee arthroscopy"
+LISTED_PROCEDURES = (MRI_LUMBAR_SPINE, CT_HEAD, KNEE_ARTHROSCOPY)
+
 REQUESTS_PATH = Path(__file__).parent / "data" / "sample_requests.json"
 
 
@@ -63,4 +68,11 @@ def evaluate(request):
             ("R2",),
             "Needs info: " + "; ".join(unresolved) + ".",
         )
-    raise NotImplementedError("procedure rules (R1, R3, R4, R5) are not implemented yet")
+    procedure = request.get("procedure")
+    if procedure not in LISTED_PROCEDURES:
+        return Decision(
+            CLINICIAN_REVIEW,
+            ("R5",),
+            f"Routed to clinician review: unlisted procedure ({procedure!r}).",
+        )
+    raise NotImplementedError("procedure rules (R1, R3, R4) are not implemented yet")

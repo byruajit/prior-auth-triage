@@ -9,6 +9,7 @@ REQUESTS = {r["id"]: r for r in rules.load_requests()}
 # id -> (expected outcome, rule IDs that must be reported), per SPEC.md
 EXPECTED = {
     "PA-003": (rules.CLINICIAN_REVIEW, {"R2"}),
+    "PA-006": (rules.CLINICIAN_REVIEW, {"R5"}),
 }
 
 
