@@ -11,6 +11,8 @@ EXPECTED = {
     "PA-001": (rules.APPROVE, {"R1"}),
     "PA-002": (rules.NEEDS_INFO, {"R1"}),
     "PA-003": (rules.CLINICIAN_REVIEW, {"R2"}),
+    "PA-004": (rules.APPROVE, {"R3"}),
+    "PA-005": (rules.NEEDS_INFO, {"R4"}),
     "PA-006": (rules.CLINICIAN_REVIEW, {"R5"}),
 }
 

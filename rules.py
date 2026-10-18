@@ -6,6 +6,7 @@ The evaluator never denies (R6): the only outcomes are the three constants below
 """
 
 import json
+import math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -72,6 +73,15 @@ def _therapy_shortfall(request, threshold):
     return None
 
 
+def _valid_trauma_hours(request):
+    """Return trauma_hours if it is a finite, non-negative int or float (not a bool), else None."""
+    hours = request.get("trauma_hours")
+    if isinstance(hours, (int, float)) and not isinstance(hours, bool):
+        if math.isfinite(hours) and hours >= 0:
+            return hours
+    return None
+
+
 def evaluate(request):
     affirmative, unresolved = _check_red_flags(request.get("red_flags"))
     if affirmative:
@@ -102,4 +112,33 @@ def evaluate(request):
             ("R1",),
             "Approved: at least 42 days of conservative therapy documented and no red flags.",
         )
-    raise NotImplementedError("procedure rules (R3, R4) are not implemented yet")
+    if procedure == CT_HEAD:
+        missing = []
+        hours = _valid_trauma_hours(request)
+        if hours is None:
+            missing.append("trauma timing is missing or invalid")
+        elif hours > 48:
+            missing.append(f"trauma was {hours} hours ago; must be within 48 hours")
+        if request.get("gcs_documented") is not True:
+            missing.append("GCS is not documented")
+        if missing:
+            return Decision(NEEDS_INFO, ("R3",), "Needs info: " + "; ".join(missing) + ".")
+        return Decision(
+            APPROVE,
+            ("R3",),
+            "Approved: trauma within 48 hours, GCS documented and no red flags.",
+        )
+    # KNEE_ARTHROSCOPY
+    missing = []
+    shortfall = _therapy_shortfall(request, 84)
+    if shortfall:
+        missing.append(shortfall)
+    if request.get("mri_report") is not True:
+        missing.append("MRI report is not attached")
+    if missing:
+        return Decision(NEEDS_INFO, ("R4",), "Needs info: " + "; ".join(missing) + ".")
+    return Decision(
+        APPROVE,
+        ("R4",),
+        "Approved: at least 84 days of conservative therapy, MRI report attached and no red flags.",
+    )
