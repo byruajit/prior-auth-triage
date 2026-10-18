@@ -1,0 +1,8 @@
+[
+ {"id":"PA-001","procedure":"MRI lumbar spine","diagnosis":"M54.50 Low back pain","therapy_days":56,"red_flags":[],"trauma_hours":null,"gcs_documented":false,"mri_report":false},
+ {"id":"PA-002","procedure":"MRI lumbar spine","diagnosis":"M54.50 Low back pain","therapy_days":0,"red_flags":[],"trauma_hours":null,"gcs_documented":false,"mri_report":false},
+ {"id":"PA-003","procedure":"MRI lumbar spine","diagnosis":"M54.50 Low back pain","therapy_days":0,"red_flags":["history of cancer"],"trauma_hours":null,"gcs_documented":false,"mri_report":false},
+ {"id":"PA-004","procedure":"CT head","diagnosis":"S09.90 Head injury","therapy_days":0,"red_flags":[],"trauma_hours":12,"gcs_documented":true,"mri_report":false},
+ {"id":"PA-005","procedure":"Knee arthroscopy","diagnosis":"M23.20 Meniscus tear","therapy_days":90,"red_flags":[],"trauma_hours":null,"gcs_documented":false,"mri_report":false},
+ {"id":"PA-006","procedure":"Cardiac PET scan","diagnosis":"I25.10 Coronary artery disease","therapy_days":0,"red_flags":[],"trauma_hours":null,"gcs_documented":false,"mri_report":false}
+]
