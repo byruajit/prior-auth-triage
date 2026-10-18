@@ -11,3 +11,4 @@ R4  Knee arthroscopy: approve only if >= 12 weeks (84 days) of conservative
     therapy AND an MRI report is attached. Else Needs info.
 R5  Any procedure not listed above -> Clinician review.
 R6  The system NEVER denies. Only a clinician can deny.
+R7  Physiotherapy referral: approve if no red flags (R2 applies first if a red flag is present).

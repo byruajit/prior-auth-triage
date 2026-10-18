@@ -158,6 +158,14 @@ There is no Deny outcome or denial action. Apply precedence in this order: \*\*a
 
 \- The only result values available to the interface and rule evaluator are \*\*Approve\*\*, \*\*Needs info\*\*, and \*\*Clinician review\*\*.
 
+\### R7 — Physiotherapy referral
+
+\- Procedure name: `Physiotherapy referral`.
+
+\- If no red flag is present, return **Approve** under R7 (demo rule, added on branch feature/r7-physio-referral).
+
+\- If a red flag is present, return **Clinician review** (R2 takes precedence).
+
 \- Missing information must route to \*\*Needs info\*\*, not denial. Only a clinician may deny outside this demo; the demo itself does not support that action.
 
 
@@ -190,7 +198,7 @@ Keep JSON loading, Streamlit UI, and rule evaluation together in one Python appl
 
 
 
-Option A is the selected architecture. Keep rules explicit rather than introducing a general policy engine. Do not add rule behavior beyond R1–R6.
+Option A is the selected architecture. Keep rules explicit rather than introducing a general policy engine. Do not add rule behavior beyond R1–R7.
 
 
 
@@ -228,7 +236,7 @@ Option A is the selected architecture. Keep rules explicit rather than introduci
 
 \- No clinical guidance, diagnosis, medical necessity determination, or validation of the synthetic rules.
 
-\- No rules beyond R1–R6, and no autonomous clinician decision-making.
+\- No rules beyond R1–R7, and no autonomous clinician decision-making.
 
 
 

@@ -18,9 +18,10 @@ OUTCOMES = (APPROVE, NEEDS_INFO, CLINICIAN_REVIEW)
 RED_FLAGS = ("history of cancer", "new neurological deficit", "suspected infection")
 
 MRI_LUMBAR_SPINE = "MRI lumbar spine"
+PHYSIO_REFERRAL = "Physiotherapy referral"
 CT_HEAD = "CT head"
 KNEE_ARTHROSCOPY = "Knee arthroscopy"
-LISTED_PROCEDURES = (MRI_LUMBAR_SPINE, CT_HEAD, KNEE_ARTHROSCOPY)
+LISTED_PROCEDURES = (MRI_LUMBAR_SPINE, CT_HEAD, KNEE_ARTHROSCOPY, PHYSIO_REFERRAL)
 
 REQUESTS_PATH = Path(__file__).parent / "data" / "sample_requests.json"
 
@@ -127,6 +128,12 @@ def evaluate(request):
             APPROVE,
             ("R3",),
             "Approved: trauma within 48 hours, GCS documented and no red flags.",
+        )
+    if procedure == PHYSIO_REFERRAL:
+        return Decision(
+            APPROVE,
+            ("R7",),
+            "Approved: physiotherapy referral with no red flags.",
         )
     # KNEE_ARTHROSCOPY
     missing = []
