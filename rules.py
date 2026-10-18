@@ -1,4 +1,4 @@
-"""Rule evaluator for the prior-authorisation triage demo.
+﻿"""Rule evaluator for the prior-authorisation triage demo.
 
 SYNTHETIC DEMO ONLY: the rules come from data/payer_rules.md and SPEC.md, are not
 clinical guidance and must not be used for real patient decisions.
@@ -104,7 +104,7 @@ def evaluate(request):
             f"Routed to clinician review: unlisted procedure ({procedure!r}).",
         )
     if procedure == MRI_LUMBAR_SPINE:
-        shortfall = _therapy_shortfall(request, 42)
+        shortfall = _therapy_shortfall(request, 6)
         if shortfall:
             return Decision(NEEDS_INFO, ("R1",), f"Needs info: {shortfall}.")
         return Decision(
