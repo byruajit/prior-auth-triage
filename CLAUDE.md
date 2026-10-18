@@ -7,18 +7,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A prior-authorisation triage demo that applies **synthetic** payer rules to synthetic requests. Its sources of truth:
 
 - `SPEC.md`: the approved spec. It is stored with Markdown escapes (`\#`, `\*\*`, `\_`), so read it as raw text.
-- `data/payer_rules.md`: rules R1–R6.
+- `data/payer_rules.md`: rules R1–R7.
 - `data/sample_requests.json`: the input format and the six demo requests (PA-001…PA-006).
 
 ## Project rules
 
 - **Stack:** Python 3, Streamlit for the UI, pytest for tests. Keep the code simple.
 - **Architecture:** put the rule logic in a pure-Python module (`rules.py`) that never imports Streamlit. Keep it separate from the Streamlit app (`app.py`). Write the rules as plain, ordered checks, not a policy engine.
-- **Business rules come ONLY from `data/payer_rules.md` and `SPEC.md`.** Never invent rules or add behaviour beyond R1–R6.
+- **Business rules come ONLY from `data/payer_rules.md` and `SPEC.md`.** Never invent rules or add behaviour beyond R1–R7.
 - **Input format:** `data/sample_requests.json`, exactly as SPEC.md describes it.
 - **Synthetic data only.** Never ask for or paste real patient information.
 - **Never output "Deny".** The only outcomes are Approve, Needs info and Clinician review. Missing information → Needs info.
-- **Every decision must include the rule IDs (R1–R6) that produced it.**
+- **Every decision must include the rule IDs (R1–R7) that produced it.**
 - **Tests:** humans own the golden test set. Write tests ONLY for the cases in `data/sample_requests.json`, with the expected outcomes taken from SPEC.md. Do not invent extra test cases unless explicitly asked.
 - **Git:** in this demo, commit directly to `main` unless asked for a branch.
 - **Workflow:** work on one task at a time and run the tests after every change.
@@ -39,6 +39,7 @@ Precedence is strict and applied in this order:
    - **R1 MRI lumbar spine:** `therapy_days >= 42` → Approve. Anything else → Needs info.
    - **R3 CT head:** valid `trauma_hours` within 0–48 and `gcs_documented` true → Approve. Anything else → Needs info.
    - **R4 Knee arthroscopy:** `therapy_days >= 84` and `mri_report` attached → Approve. Anything else → Needs info.
+   - **R7 Physiotherapy referral:** no red flag → Approve (R7). Red flags are already handled in step 1.
 
 Field validation:
 - `therapy_days` must be an `int`, not a `bool`. A value above 0 counts as documented therapy, but each rule's day threshold still applies.

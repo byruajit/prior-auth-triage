@@ -11,6 +11,12 @@ OWNER_REQUESTS = [
     {"id": "GT-001", "procedure": "MRI lumbar spine", "diagnosis": "M54.50 Low back pain",
      "therapy_days": 21, "red_flags": [], "trauma_hours": None,
      "gcs_documented": False, "mri_report": False},
+    {"id": "GT-002", "procedure": "Physiotherapy referral", "diagnosis": "M54.50 Low back pain",
+     "therapy_days": 0, "red_flags": [], "trauma_hours": None,
+     "gcs_documented": False, "mri_report": False},
+    {"id": "GT-003", "procedure": "Physiotherapy referral", "diagnosis": "M54.50 Low back pain",
+     "therapy_days": 0, "red_flags": ["history of cancer"], "trauma_hours": None,
+     "gcs_documented": False, "mri_report": False},
 ]
 REQUESTS.update({r["id"]: r for r in OWNER_REQUESTS})
 
@@ -23,6 +29,8 @@ EXPECTED = {
     "PA-005": (rules.NEEDS_INFO, {"R4"}),
     "PA-006": (rules.CLINICIAN_REVIEW, {"R5"}),
     "GT-001": (rules.NEEDS_INFO, {"R1"}),
+    "GT-002": (rules.APPROVE, {"R7"}),
+    "GT-003": (rules.CLINICIAN_REVIEW, {"R2"}),
 }
 
 
