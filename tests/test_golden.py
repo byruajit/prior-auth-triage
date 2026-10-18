@@ -1,10 +1,18 @@
-"""Golden tests: only the synthetic cases in data/sample_requests.json (see CLAUDE.md)."""
+"""Golden tests: the synthetic cases in data/sample_requests.json plus owner-approved cases (see CLAUDE.md)."""
 
 import pytest
 
 import rules
 
 REQUESTS = {r["id"]: r for r in rules.load_requests()}
+
+# Golden cases added by the test owner (not in sample_requests.json).
+OWNER_REQUESTS = [
+    {"id": "GT-001", "procedure": "MRI lumbar spine", "diagnosis": "M54.50 Low back pain",
+     "therapy_days": 21, "red_flags": [], "trauma_hours": None,
+     "gcs_documented": False, "mri_report": False},
+]
+REQUESTS.update({r["id"]: r for r in OWNER_REQUESTS})
 
 # id -> (expected outcome, rule IDs that must be reported), per SPEC.md
 EXPECTED = {
@@ -14,6 +22,7 @@ EXPECTED = {
     "PA-004": (rules.APPROVE, {"R3"}),
     "PA-005": (rules.NEEDS_INFO, {"R4"}),
     "PA-006": (rules.CLINICIAN_REVIEW, {"R5"}),
+    "GT-001": (rules.NEEDS_INFO, {"R1"}),
 }
 
 
