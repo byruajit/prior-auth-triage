@@ -44,6 +44,11 @@ Field validation:
 - `therapy_days` must be an `int`, not a `bool`. A value above 0 counts as documented therapy, but each rule's day threshold still applies.
 - `trauma_hours` must be an `int` or `float`, not a `bool`. The range `0 <= trauma_hours <= 48` is inclusive. Negative, NaN, infinite or non-numeric values are invalid → Needs info.
 
+## Lessons learned
+
+- Every numeric threshold needs owner-approved boundary golden tests: one below, exactly at, and one above. Examples: 41/42/43 days for R1, 83/84/85 days for R4; for R3, 0, 47 and 48 hours → Approve, and 48.5 and -1 → Needs info.
+- AI code review must be given SPEC.md, not just the function, to avoid false alarms.
+
 ## Presentation
 
 - Show the single outcome prominently, together with the rule IDs and a short explanation.
